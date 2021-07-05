@@ -32,7 +32,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Combining hydrogen-deuterium exchange experiments with molecular simulations: Tutorials and applications of the HDXer ensemble reweighting software [Article v\versionnumber]}
 
-\author[1]{Suhwan Paul Lee}
+\author[1]{Paul Suhwan Lee}
 \author[1*\authfn{1}]{Richard T. Bradshaw}
 \author[2]{Fabrizio Marinelli}
 \author[3]{Kyle Kihn}
@@ -48,7 +48,7 @@
 \corr{richard.bradshaw@kcl.ac.uk}{RTB}  % Correspondence emails.  
 \corr{lucy.forrest@nih.gov}{LRF}
 
-\orcid{Suhwan Paul Lee}{0000-0003-2658-4641}
+\orcid{Paul Suhwan Lee}{0000-0003-2658-4641}
 \orcid{Richard T. Bradshaw}{0000-0002-8652-4301}
 \orcid{Fabrizio Marinelli}{0000-0003-0044-6718}
 \orcid{Kyle Kihn}{0000-0002-0502-1332}
@@ -144,7 +144,7 @@ In terms of background knowledge, we begin here with a general introduction to t
 
 HDXer contributes to a growing toolbox of computational strategies that have been developed to integrate experimental data directly into the computational modeling and simulation process \cite{Bonomi2017, Kofinger2019, Orioli2020}.
 These methods are designed to augment low-resolution experimental structural data by selecting or refining high-resolution structural models so as to optimally describe the underlying experimental observable.
-This process, frequently referred to under the umbrella term of 'ensemble refinement', complements existing high-resolution structural biology techniques, such as X-ray crystallography or cryo electron microscopy, and can provide information on solution-state structure and dynamics \cite{Rozycki2011, Marinelli2015, Marinelli2019, Bottaro2018, Bengtsen2020, Cesari2016, Hustedt2018, Kofinger2019}.
+This process, frequently referred to under the umbrella term of 'ensemble refinement', complements existing high-resolution structural biology techniques, such as X-ray crystallography or cryo-electron microscopy, and can provide information on solution-state structure and dynamics \cite{Rozycki2011, Marinelli2015, Marinelli2019, Bottaro2018, Bengtsen2020, Cesari2016, Hustedt2018, Kofinger2019}.
 
 We classify HDXer itself as a \textit{post-hoc} maximum entropy ensemble reweighting method \cite{Pitera2012, Boomsma2014}. 
 Put more simply, HDXer minimally biases the relative populations of frames in a previously-generated candidate structural ensemble, such that the predicted HDX-MS data of the ensemble conform to a target (experimental) set of HDX-MS data, within a chosen level of uncertainty.
@@ -510,7 +510,7 @@ The computational predictions will then be compared with the experimental BPTI d
 
 \subsubsection{Prerequisites}
 The key requirement for this tutorial is an ensemble of atomistic protein structures, which will be used both for predicting HDX levels and for the later reweighting steps. 
-For BPTI, we provide in-house MD simulation trajectories in a repository on Zenodo (\url{doi:10.5281/zenodo.4640761}). 
+For BPTI, we provide in-house MD simulation trajectories in a repository on Zenodo (\url{doi:10.5281/zenodo.4640760}). 
 This repository contains five replica trajectories, each 500 ns long, from five separate simulations of BPTI in solution.
 To follow along with all the steps in this tutorial notebook, users should download the entire directory containing all five runs (i.e., \texttt{BPTI\_simulations}), from Zenodo, into the existing \texttt{\$HDXER\_PATH/tutorials/BPTI/} folder.
 However, for users short on time or storage space, we also provide a reference set of predicted HDX-MS data, which can be used to follow the visualization and analysis steps of the tutorial. 
@@ -724,36 +724,34 @@ If excluding a particular conformation from the candidate ensemble results in re
 However, if large RMSE to the target data remains, regardless of the selected conformational ensemble and applied $W_{app}$, this might suggest that neither any structural state sampled by the MD simulation, nor any population mixture of sampled states, represents the experimental ensemble well.
 
 \subsection{Considerations in experimental design}
-The previous sections provide a number of practical methods to assess and rectify any ambiguities in the computational reweighting applied by HDXer.
+The previous sections provide a number of practical approaches to assess and rectify any ambiguities in the computational reweighting applied by HDXer.
 However, any ambiguities that arise from the experimental data itself will be challenging and time-consuming to understand using the \textit{post hoc} HDXer analyses described above.
-For example, if the HDX-MS experiments are known to probe a highly diverse conformational ensemble, with many states of varied population, it may be difficult to validate that HDXer reweighted ensembles comprise all the relevant conformational states without lengthy testing.
+For example, if the HDX-MS experiments are known to probe a highly diverse conformational ensemble, with many states of varied populations, lengthy testing may be required to validate that the HDXer reweighted ensembles cover the complete experimental ensemble.
 Users should therefore carefully consider the design and analysis of their HDX-MS experiments from the outset.
 Below, we include some key points for HDX-MS experimental design that arise from our own experience of HDXer analyses.
 
 Many HDX-MS experiments are designed to probe molecular complexes, for example in epitope/paratope mapping, or protein-ligand binding studies.
 In this case, it is crucial to consider the thermodynamics and kinetics of the molecular association during the experiment.
-Users should carefully choose protein/ligand concentrations, equilibration times, and dilution ratios to ensure that the system studied is a) at equilibrium, and b) as much as possible monodisperse, during the experiment.
-Experimental solutions that contain a mixture of conformational states, or states that interconvert over experimental timescales, may give rise to HDX-MS signals that are particularly challenging to interpret.
+Users should carefully choose protein/ligand concentrations, equilibration times, and dilution ratios to ensure that the system studied is both at equilibrium, and as monodisperse as possible, during the experiment.
+Otherwise, experimental solutions that contain a mixture of conformational states, or states that interconvert over experimental timescales, may give rise to HDX-MS signals that are particularly challenging to interpret.
 To avoid this, HDX-MS can be coupled to additional structural techniques, ranging from size-exclusion chromatography to native MS, for sample quality assurance \cite{Masson2019,OBrien2018}.
 
 Assessing the quality of the obtained MS data is also crucial for reliable HDXer analyses.
-Data should be inspected and carefully filtered to remove as much uncertainty as possible from the measured deuterium uptake values.
-Selecting peptides based on intensity (i.e. signal/noise ratio), and monitoring for artefacts (e.g. signs of aggregation) in mass envelopes, can minimize uneven redundancy throughout the protein and maximize the representation of peptides with state-to-state differences.
-In addition, peptide MS data should be monitored for the presence of EX1 or mixed EX1/EX2 kinetic regimes.
-Predictive protection factor models are only suited to interpret EX2-type behavior, and thus peptides that exhibit alternate regimes should be excluded from analysis.
-Dependent on the experimental design, peptides can manifest different exchange regimes across the timescale of an HDX-MS experiment.
-In this case, users should consider removing all data from labeling times at which EX1 behavior is observed, in order to minimize the uncertainty present in the remaining (shorter) experimental labeling time data.
+First, data should be inspected and carefully filtered to remove as much uncertainty as possible from the measured deuterium uptake values.
+For example, selecting peptides based on intensity (i.e. signal/noise ratio), and monitoring for artifacts (e.g. signs of aggregation) in mass envelopes, can minimize uneven redundancy across the protein and maximize the representation of peptides with state-to-state differences.
+Second, because predictive protection factor models are only applicable to exchange events with EX2-type behavior, peptides that exhibit EX1 or mixed EX1/EX2 behavior should be excluded.
+Furthermore, since peptides can manifest different exchange regimes over the timescale of an HDX-MS experiment, users should consider removing all data from labeling times at which EX1 behavior is observed, in order to minimize the uncertainty present in the remaining (shorter) experimental labeling time data.
 
-The suggestions above will aid the selection of reliable HDX-MS data as a target for reweighting analyses, but they are unable to guarantee that each datapoint is uncertainty-free.
+The suggestions provided above will aid the selection of reliable HDX-MS data as a target for reweighting analyses, but do not guarantee that every datapoint is uncertainty-free.
 Thus, careful experimental design is not a substitute for assessing the robustness of the HDXer reweighted ensembles, using the methods described in sections \ref{target_data_uncertainty_sect}-\ref{ensemble_uncertainty_sect}.
-Instead, well-characterised, high-quality experimental data will simplify the quality control steps of HDXer analyses, and enhance the accuracy and reliability of the structural interpretations of HDX-MS data.
-Accordingly, we recommend that both parts of the analysis, experimental and computational, are considered and designed together.
-This will create a single, integrative, HDX-MS and HDXer workflow, and, in our experience, is the most likely approach for users to successfully and unambiguously answer biological questions of interest.
+Instead, well-characterized, high-quality experimental data will simplify the quality control steps of HDXer analyses, and enhance the accuracy and reliability of the structural interpretations.
+Accordingly, we recommend that both components (i.e., experimental and computational) be considered and designed in tandem.
+Such a strategy results a single, integrative, HDX-MS and HDXer workflow, that, in our experience, is most likely to succeed in producing in an unambiguous answer to the biological question of interest.
 
 
 \section{Author Contributions}
 %%%%%%%%%%%%%%%%
-% This section mustt describe the actual contributions of
+% This section must describe the actual contributions of
 % author. Since this is an electronic-only journal, there is
 % no length limit when you describe the authors' contributions,
 % so we recommend describing what they actually did rather than
@@ -764,7 +762,7 @@ This will create a single, integrative, HDX-MS and HDXer workflow, and, in our e
 % for more information on deciding on authorship and author order.
 %%%%%%%%%%%%%%%%
 
-Conceptualization, all authors; methodology development, software development, data curation, and analysis, SPL, RTB, and FM; software testing, KK, AS, PLW, and DJD; writing of original drafts and visualization of data, SPL, RTB, and LRF; writing - review and editing, all authors; supervision, PLW, DJD, JDFG, and LRF; resource and funding acquisition, JDFG and LRF, project administration, RTB and LRF.
+Conceptualization, all authors; methodology development, software development, data curation, and analysis, PSL, RTB, and FM; software testing, KK, AS, PLW, and DJD; writing of original drafts and visualization of data, PSL, RTB, and LRF; writing - review and editing, all authors; supervision, PLW, DJD, JDFG, and LRF; resource and funding acquisition, JDFG and LRF; project administration, RTB and LRF.
 
 For a more detailed description of author contributions,
 see the GitHub issue tracking and changelog at \githubrepository.
