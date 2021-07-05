@@ -10,7 +10,7 @@ We then guide users through tutorials demonstrating practical applications of ex
 Finally, we provide a practical discussion of the capabilities and limitations of the HDXer methods, including recommendations for a user's own analyses.
 
 ## List of Authors
-- S.P. Lee, NINDS, National Institutes of Health, Bethesda, MD, USA
+- P.S. Lee, NINDS, National Institutes of Health, Bethesda, MD, USA
 - R.T. Bradshaw, NINDS, National Institutes of Health, Bethesda, MD, USA 
 - F. Marinelli, NHLBI, National Institutes of Health, Bethesda, MD, USA
 - K. Kihn, University of Maryland, Baltimore, MD, USA
