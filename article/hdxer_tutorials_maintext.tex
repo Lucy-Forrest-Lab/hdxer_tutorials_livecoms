@@ -24,7 +24,7 @@
 %%% IMPORTANT USER CONFIGURATION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\versionnumber}{0.1}  % you should update the minor version number in preprints and major version number of submissions.
+\newcommand{\versionnumber}{0.2}  % you should update the minor version number in preprints and major version number of submissions.
 \newcommand{\githubrepository}{\url{https://github.com/TMB-CSB/hdxer_tutorials_livecoms}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -102,7 +102,8 @@ Overall, this article is intended to provide an up-to-date, pedagogical counterp
 A pioneering descriptive framework, developed by Linderstrøm-Lang and co-workers, first linked the hydrogen exchange rates of backbone amide functional groups directly to protein structure in the 1950s \cite{Hvidt1954, Englander1997}. 
 This concept provided the foundation for the subsequent development of hydrogen-deuterium exchange (HDX) measurements as a sensitive, label-free probe of protein conformation and dynamics in solution, and due to these advances HDX is now a valuable addition to the modern structural biology toolbox. 
 In recent years, successful applications of HDX measurements have proliferated, in part due to advancements in technologies used to perform, analyze, and process HDX experiments. 
-In particular, experiments that couple HDX to mass spectrometry measurements of the deuterium uptake (HDX-MS) have become the \textit{de facto} standard for applications of HDX to the dynamics of proteins in solution, allowing determination of exchange data for large protein systems or complexes and with low sample amounts \cite{Oganesyan2018, Engen2020}.
+In particular, experiments that couple HDX to mass spectrometry measurements of the deuterium uptake (HDX-MS) have become the most widespread for applications of HDX to the dynamics of proteins in solution.
+HDX-MS offers particular advantages over NMR-based exchange measurements for many applications, such as the determination of exchange data for large protein systems or complexes and with low sample amounts \cite{Oganesyan2018, Engen2020}.
 
 Within the protein environment, the canonical mechanisms for backbone amide deuterium exchange require the amide hydrogen to be exposed and accessible, at least transiently, to a nearby catalytic solvent molecule, OD$^-$, or D$_3$O$^+$ ion \cite{Hvidt1966, Englander1983}.
 For a folded protein, therefore, the rate of exchange reports on the extent to which local protein flexibility, conformational changes, or global unfolding, expose the amide to nearby catalysts, and result in deuterium exchange \cite{Hvidt1966, Englander1997, Englander1983, Oganesyan2018}.
@@ -138,7 +139,37 @@ After completing the tutorials, which are available alongside the HDXer software
 \end{itemize}
 
 The tutorials are self-contained and therefore require no additional data or resources beyond those detailed in the 'Prerequisites' sections below. 
-In terms of background knowledge, we begin here with a general introduction to the theoretical concepts of both HDX and ensemble reweighting, while suggesting sources of more detailed information for the interested user.
+In terms of background knowledge, we provide a general introduction to the theoretical concepts of both HDX and ensemble reweighting in section \ref{interpretingexptdata_sect}, which also contains suggestions for sources of more detailed information for the interested user.
+
+\subsection{Tutorial prerequisites}
+\subsubsection{Background knowledge}
+Our explanations of the HDXer method and tutorials assume that users are familiar with common ideas and terminology of physical chemistry, thermodynamics, and statistical ensembles of molecules.
+Beyond these concepts our article aims to provide users with a self-contained solid foundation in the specific theory underpinning ensemble reweighting and computational HDX predictions, primarily within section \ref{interpretingexptdata_sect}.
+In addition, however, users should have a good understanding of the two input data sources for HDXer analyses, namely structural ensembles generated \textit{via} molecular modeling and simulation, and the experimental measurement of protein HDX-MS data.
+
+In practical terms, users should be familiar with the process of preparing and performing simulations, or generating models, with their chosen software. 
+This process includes carefully selecting the initial seed or template structure (e.g. determined by X-ray crystallography), modelling unresolved residues to match the sequence of the experimental protein construct, choosing protonation states of ionizable residues, incorporating any required ligands and describing them with reliable parameters, and appropriately representing the protein environment (e.g. oligomerization, complexation, or membrane embedding of the protein).
+Obtaining a relevant, fully-representative candidate structural ensemble is crucial for accurate HDXer analyses.
+The decision as to whether the ensemble should be broadened, or narrowed, can be informed by post-reweighting checks, as described in section \ref{robustness_sect}.
+
+In terms of computational background, to benefit from the tutorials users will need a basic level of familiarity with Unix environments and the command line interface (e.g., making and moving files and directories).
+A basic knowledge of Python is also desirable for users wishing to move beyond the Juptyer notebooks and apply HDXer to their own systems. 
+
+Finally, users should be familiar with their target experimental HDX data, including the conditions under which it was obtained, the level of deuterium back-exchange (for HDX-MS data), and the proposed kinetic mechanism of exchange for each amide or peptide.
+HDXer analyses assume that the target exchange data has been normalized for back exchange and for the total deuterium ratio in the solution (e.g., by normalizing uptake to a fully-deuterated control sample), and that the data represent residues and peptides undergoing an EX2-type exchange mechanism, as explained further in section \ref{predictivemodel_sect}.
+
+\subsubsection{Software}\label{Software_sect}
+The HDXer tutorials are written in Python 3.7, and are available as Jupyter notebooks, downloadable from the HDXer GitHub repository at \url{https://github.com/TMB-CSB/HDXer}.
+Users should use the git version control software to clone and update the HDXer package. Installation instructions are documented in the \texttt{README} file within the repository.
+We recommend creating a separate Python virtual environment for HDXer analyses, which has the following dependencies: MDTraj ($\geqslant$1.9.3) \cite{McGibbon2015MDTraj}, NumPy ($\geqslant$1.18.1) \cite{Harris2020}, Matplotlib ($\geqslant$3.2.0) \cite{Hunter:2007}, Pytest ($\geqslant$5.3.5) \cite{pytest5.3}, and Jupyterlab ($\geqslant$3.0) \cite{project_jupyter}.
+To recreate the testing environment for HDXer, a Conda environment file, \texttt{HDXER\_ENV.yml}, is available in the HDXer GitHub repository.
+The tutorials have the same dependencies as the software itself, and thus if the HDXer package has been successfully installed, no additional software is required.
+
+\subsubsection{Hardware}
+The HDXer tutorials have modest hardware requirements and are designed to work with any, relatively modern, consumer desktop or laptop.
+Individual HDXer analyses use only a single CPU thread, though time and memory requirements depend on the size of the candidate structural ensemble, and on the number of datapoints being targeted during reweighting.
+If the underlying NumPy installation has been installed with support for multi-threading, analyses may experience a performance boost for the matrix operations.
+However, such an improvement is not guaranteed, so we recommend users run their own tests if they wish to take advantage of multi-threading.
 
 \subsection{Interpreting experimental data with ensemble reweighting techniques}\label{interpretingexptdata_sect}
 
@@ -190,6 +221,10 @@ In summary, if users choose to generate candidate ensembles using enhanced sampl
 
 \subsubsection{Predictive models for HDX}\label{predictivemodel_sect}
 Since the environment and dynamics of each backbone amide in a protein chain are unique, the underlying structural and chemical mechanisms of exchange within a protein may vary \cite{Englander1983, Skinner2012mechanisms, Skinner2012models}.
+
+
+
+
 As such, there are no rigorous, generalized structural determinants of exchange.
 However, a number of predictive models have been developed to correlate protein structural and dynamical metrics with protection factors \cite{VendruscoloPaci2003, BestVendruscolo2006, Kieseritzky2006, Ma2011, Liu2012, Petruk2013, Park2015, Persson2015, Markwick2019}.
 The protection factors estimated by these models may then be used to calculate exchange rates, and ultimately deuterium uptake, for peptides observed to follow the EX2 exchange kinetic regime in HDX-MS experiments.
@@ -251,32 +286,7 @@ As outputs, users can expect to receive:
 Armed with the knowledge provided thus far, the tutorials are intended to provide a practical guide for users to set up, perform, and interpret their own HDXer analyses.
 We detail the remaining, more practical, prerequisites for the tutorials and HDXer analyses in the following section.
 
-\subsection{Additional tutorial prerequisites}
-\subsubsection{Background knowledge}
-In addition to a solid foundation in the theory underpinning ensemble reweighting and computational HDX predictions, users should have a good understanding of the two data sources in their HDXer analyses, namely structural ensembles generated \textit{via} molecular modeling and simulation, and the experimental measurement of protein HDX-MS data.
 
-In practical terms, users should be familiar with the process of preparing and performing simulations, or generating models, with their chosen software. 
-This process includes carefully selecting the initial seed or template structure (e.g., determined by X-ray crystallography), modelling unresolved residues to match the sequence of the experimental protein construct, choosing protonation states of ionizable residues, incorporating any required ligands and describing them with reliable parameters, and appropriately representing the protein environment (e.g. oligomerization, complexation, or membrane embedding of the protein).
-Obtaining a relevant, fully-representative candidate structural ensemble is crucial for accurate HDXer analyses; the decision as to whether the ensemble should be broadened, or narrowed, can be informed by post-reweighting checks, as described in section \ref{robustness_sect}.
-
-In terms of computational background, to benefit from the tutorials users will need a basic level of familiarity with Unix environments and the command line interface (e.g., making and moving files and directories).
-A basic knowledge of Python is also desirable for users wishing to move beyond the Juptyer notebooks and apply HDXer to their own systems. 
-
-Finally, users should be familiar with their target experimental HDX data, including the conditions under which it was obtained, the level of deuterium back-exchange (for HDX-MS data), and the proposed kinetic mechanism of exchange for each amide or peptide.
-HDXer analyses assume that the target exchange data has been normalized for back exchange and for the total deuterium ratio in the solution (e.g., by normalizing uptake to a fully-deuterated control sample), and that the data represent residues and peptides undergoing an EX2-type exchange mechanism.
-
-\subsubsection{Software}\label{Software_sect}
-The HDXer tutorials are written in Python 3.7, and are available as Jupyter notebooks, downloadable from the HDXer GitHub repository at \url{https://github.com/TMB-CSB/HDXer}.
-Users should use the git version control software to clone and update the HDXer package. Installation instructions are documented in the \texttt{README} file within the repository.
-We recommend creating a separate Python virtual environment for HDXer analyses, which has the following dependencies: MDTraj ($\geqslant$1.9.3) \cite{McGibbon2015MDTraj}, NumPy ($\geqslant$1.18.1) \cite{Harris2020}, Matplotlib ($\geqslant$3.2.0) \cite{Hunter:2007}, Pytest ($\geqslant$5.3.5) \cite{pytest5.3}, and Jupyterlab ($\geqslant$3.0) \cite{project_jupyter}.
-To recreate the testing environment for HDXer, a Conda environment file, \texttt{HDXER\_ENV.yml}, is available in the HDXer GitHub repository.
-The tutorials have the same dependencies as the software itself, and thus if the HDXer package has been successfully installed, no additional software is required.
-
-\subsubsection{Hardware}
-The HDXer tutorials have modest hardware requirements and are designed to work with any, relatively modern, consumer desktop or laptop.
-Individual HDXer analyses use only a single CPU thread, though time and memory requirements depend on the size of the candidate structural ensemble, and on the number of datapoints being targeted during reweighting.
-If the underlying NumPy installation has been installed with support for multi-threading, analyses may experience a performance boost for the matrix operations.
-However, such an improvement is not guaranteed, so we recommend users run their own tests if they wish to take advantage of multi-threading.
 
 % Section 2
 \section{Workflow of HDXer}
