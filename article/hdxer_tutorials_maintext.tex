@@ -103,7 +103,7 @@ A pioneering descriptive framework, developed by Linderstrøm-Lang and co-worker
 This concept provided the foundation for the subsequent development of hydrogen-deuterium exchange (HDX) measurements as a sensitive, label-free probe of protein conformation and dynamics in solution, and due to these advances HDX is now a valuable addition to the modern structural biology toolbox. 
 In recent years, successful applications of HDX measurements have proliferated, in part due to advancements in technologies used to perform, analyze, and process HDX experiments. 
 In particular, experiments that couple HDX to mass spectrometry measurements of the deuterium uptake (HDX-MS) have become the most widespread for applications of HDX to the dynamics of proteins in solution.
-HDX-MS offers particular advantages over NMR-based exchange measurements for many applications, such as the determination of exchange data for large protein systems or complexes and with low sample amounts \cite{Oganesyan2018, Engen2020}.
+HDX-MS offers particular advantages over NMR-based exchange measurements for many applications, such as the determination of exchange data for large protein systems or complexes and with low sample amounts \cite{Oganesyan2018, Engen2020, James2021}.
 
 Within the protein environment, the canonical mechanisms for backbone amide deuterium exchange require the amide hydrogen to be exposed and accessible, at least transiently, to a nearby catalytic solvent molecule, OD$^-$, or D$_3$O$^+$ ion \cite{Hvidt1966, Englander1983}.
 For a folded protein, therefore, the rate of exchange reports on the extent to which local protein flexibility, conformational changes, or global unfolding, expose the amide to nearby catalysts, and result in deuterium exchange \cite{Hvidt1966, Englander1997, Englander1983, Oganesyan2018}.
@@ -220,20 +220,50 @@ Thus, in general, the reliability of the reweighting will be lessened if the can
 In summary, if users choose to generate candidate ensembles using enhanced sampling methodologies, they should endeavor to ensure that the candidate structures comprehensively represent the equilibrium dynamics of the system. 
 
 \subsubsection{Predictive models for HDX}\label{predictivemodel_sect}
-Since the environment and dynamics of each backbone amide in a protein chain are unique, the underlying structural and chemical mechanisms of exchange within a protein may vary \cite{Englander1983, Skinner2012mechanisms, Skinner2012models}.
+Within the Linderstrøm-Lang model for hydrogen exchange, each backbone amide can exist in either an 'open', accessible and exchange-competent state (O), or a 'closed', protected and exchange-non-competent state (C) \cite{Hvidt1966, Englander1997, Jensen2016}.
+Interconversion between the O and C states is governed by individual rate constants; $k_{\textnormal{op}}$ for the opening conformational change, and $k_{\textnormal{cl}}$ for closing.
+The exchange reaction itself, which is governed by an intrinsic chemical exchange rate constant $k_{\textnormal{int}}$, is only possible from the amide O state.
+The relationship between these rate constants (equation \ref{LL_exch_model_eqn}) gives rise to two alternative kinetic regimes for the calculation of the experimentally-observed overall rate of exchange, $k_{\textnormal{HX}}$ (equation \ref{EX1_EX2_eqn}) \cite{Jensen2016, Ferraro2004, James2021}.
 
+\begin{equation}\label{LL_exch_model_eqn}
+\ce{(N-H)_C <=>[$k$_{op}][$k$_{cl}] (N-H)_O <=>[$k$_{int}][] (N-D)_O <=>[$k$_{cl}][$k$_{op}] (N-D)_C}
+\end{equation}
+\begin{equation}\label{EX1_EX2_eqn}
+\begin{gathered}
+\textnormal{EX1:  } k_{\textnormal{int}} >> k_{\textnormal{cl}}  ,  k_{\textnormal{HX}} = k_{\textnormal{op}} \\
+\textnormal{EX2:  } k_{\textnormal{int}} << k_{\textnormal{cl}}, k_{\textnormal{HX}} =
+\frac{k_{\textnormal{op}}}{k_{\textnormal{cl}}}k_{\textnormal{int}}
+\end{gathered}
+\end{equation}
 
+Amides can require vastly different structural transitions to reach an exchange-competent O state \cite{Hvidt1966, Englander1983, Skinner2012mechanisms, Skinner2012models}. 
+The protein backbone of some structural features may only be accessible to exchange following a local or global unfolding motion, refolding from which is likely to be far slower than the intrinsic rate of exchange.
+Amides in these structures will therefore undergo exchange with EX1 kinetics, with an overall rate directly proportional to that of the unfolding conformational change, $k_\textnormal{op}$.
 
+Amides that exhibit EX2 exchange, common under native conditions, access exchange-competent states \textit{via} smaller conformational fluctuations, in which the rate of refolding to the C state is far faster than the chemical exchange reaction.
+Here, the observed HDX rate is proportional to the equilibrium of the amide O/C states, or equivalently to the 'opening' conformational free energy change $\Delta G_{\textnormal{op}}$ (equation \ref{PF_deltaG_eqn}).
+The O/C equilibrium is also frequently described in the context of the amide protection factor, $P_i$, which represents the ratio $\frac{k_\textnormal{cl}}{k_\textnormal{op}}$, or can also be calculated from the experimentally-measurable ratio $\frac{k_\textnormal{int}}{k_\textnormal{HX}}$.
 
-As such, there are no rigorous, generalized structural determinants of exchange.
-However, a number of predictive models have been developed to correlate protein structural and dynamical metrics with protection factors \cite{VendruscoloPaci2003, BestVendruscolo2006, Kieseritzky2006, Ma2011, Liu2012, Petruk2013, Park2015, Persson2015, Markwick2019}.
-The protection factors estimated by these models may then be used to calculate exchange rates, and ultimately deuterium uptake, for peptides observed to follow the EX2 exchange kinetic regime in HDX-MS experiments.
+\begin{equation}\label{PF_deltaG_eqn}
+{\Delta}G_{\textnormal{op}} = -RT\ln{\frac{k_{\textnormal{op}}}{k_{\textnormal{cl}}}} = RT\ln{P_i}
+\end{equation}
+
+Models to estimate protection factor provide an opportunity to interpret EX2 exchange in a structural context, and typically fall into two families.
+The first approach requires extensive sampling of the amide C and O states, from which the C/O equilibrium constant $P_i$ is calculated directly by classifying each conformation as 'open' or 'closed', and counting the relative populations (i.e. probabilities) of each state \cite{Persson2015, Liu2012}.
+A common alternative technique is to use an empirical scoring function that correlates protein structural and dynamical features, observed in an ensemble of structures, with the amide $\Delta G_\textnormal{op}$ \cite{VendruscoloPaci2003, BestVendruscolo2006, Kieseritzky2006, Ma2011, Petruk2013, Park2015, Markwick2019}.
+The latter procedure requires no knowledge or definition of the O state structural constitution for each amide. 
+Indeed, the parameterization of empirical $P_i$ models has often made use of structures from equilibrium MD simulations exploring dynamics on ns-µs timescales, which would predominantly sample the well-folded C state for each amide, and neglect O-state transitions that may occur on longer timescales.
+Interpreting experimental H-D exchange with empirical $P_i$ models therefore characterizes the amide C state, alongside any rapid and transient O state fluctuations on short (ps-ns) timescales well-sampled by the parameterization process.
+O state structures resulting from large or slow dynamic transitions are unlikely to be incorporated in the structural ensembles modeled using empirical $P_i$ predictions, which highlights the importance of correctly classifying EX1 and EX2 behavior when choosing experimental data to interpret \textit{via} predictive models.
+Fortunately, a simple analysis of the peptide mass envelopes obtained in HDX-MS experiments often allows classification of individual peptides into EX1, EX2, or mixed EX1/EX2 exchangers for this purpose \cite{Jensen2016, Ferraro2004, James2021}.
+
 Currently, HDXer applies the commonly-used phenomenological model \cite{VendruscoloPaci2003, BestVendruscolo2006}, which estimates \textit{P\textsubscript{i}} for each backbone amide as an ensemble average function of the number of heavy atom contacts, \textit{N\textsubscript{C,i}}, and H bonds, \textit{N\textsubscript{H,i}}, formed by the amide NH group:
 \begin{equation}\label{pf_model}
     \ln{P_i} = \langle \beta_\textnormal{C} N_{\textnormal{C},i} + \beta_\textnormal{H} N_{\textnormal{H},i} \rangle.
 \end{equation}
 Consequently, in order to count the H bonds and contacts formed by each backbone amide, HDXer requires a fully atomistic representation of the protein, including hydrogen atoms.
 Structural protection from other sources, such as bound ligands, co-factors, or lipid bilayers, can also be included in Equation \ref{pf_model}, if these elements are present in the candidate structural ensemble.
+
 However, it should be noted that the phenomenological model includes two empirical scaling parameters reflecting the relative contributions of heavy atom contacts and H bonding to structural protection.
 The default values for these scaling factors ($\beta_\textnormal{C} = 0.35, \beta_\textnormal{H} = 2.0$) were originally parameterized with a training dataset of globular, monomeric proteins \cite{BestVendruscolo2006}, and therefore may not be suitable for proteins that obtain substantial structural protection from non-protein sources, for example from embedding in a lipid bilayer.
 HDXer can accommodate such adjustments to the predictive model as it allows $\beta_\textnormal{C}$ and $\beta_\textnormal{H}$ to be treated either as user-definable constants or as optimizable parameters during reweighting.
@@ -286,18 +316,12 @@ As outputs, users can expect to receive:
 Armed with the knowledge provided thus far, the tutorials are intended to provide a practical guide for users to set up, perform, and interpret their own HDXer analyses.
 We detail the remaining, more practical, prerequisites for the tutorials and HDXer analyses in the following section.
 
-
-
 % Section 2
 \section{Workflow of HDXer}
 Although we have already described the basic inputs and outputs of HDXer analyses above, to understand the objectives of each tutorial it is helpful to also be familiar with the general structure of the HDXer software and of a typical workflow.
 The relationship between input data, analyses, and output data in HDXer is illustrated in Figure \ref{fig:workflowfig}, along with the names of key modules or scripts that will be used in the tutorials.
 
-\begin{figure}
-    \includegraphics[width=0.98\linewidth]{Fig2_HDXer_workflow_vertical.pdf}
-    \caption{Workflow of a typical HDXer analysis. Input structural and experimentally-measured HDX-MS (orange; the dashed line denotes an optional input) can be processed through multiple analysis steps (blue), to obtain predicted HDX-MS data and/or a reweighted structural ensemble as outputs (green). The corresponding software packages or python functions are listed alongside each method. The tutorials cover all aspects of HDXer usage, from preparing input data to interpreting the outputs.}
-    \label{fig:workflowfig}
-\end{figure}
+
 
 \subsection{Organization of the tutorials}
 The initial stage for any HDXer analysis is the collation and preparation of input data sources, such as the candidate structural ensemble and target (experimental) HDX-MS data, as specified in section \ref{maxent_theory_sect}. 
@@ -308,6 +332,12 @@ Tutorial 2 (section \ref{tutorial_2}) demonstrates an application of the protect
 
 The final possible HDXer analysis is to reweight the candidate ensemble to fit target (experimental) HDX-MS data.
 Tutorial 3 (section \ref{tutorial_3}) describes an example application based on the HDX-MS predictions completed in tutorial 2, and illustrates how to interpret the outputs of reweighting, namely the final structural ensemble, the reweighted HDX-MS data, and the metrics of $W_\textnormal{app}$ and RMSE to the target data. 
+
+\begin{figure}
+    \includegraphics[width=0.98\linewidth]{Fig2_HDXer_workflow_vertical.pdf}
+    \caption{Workflow of a typical HDXer analysis. Input structural and experimentally-measured HDX-MS (orange; the dashed line denotes an optional input) can be processed through multiple analysis steps (blue), to obtain predicted HDX-MS data and/or a reweighted structural ensemble as outputs (green). The corresponding software packages or python functions are listed alongside each method. The tutorials cover all aspects of HDXer usage, from preparing input data to interpreting the outputs.}
+    \label{fig:workflowfig}
+\end{figure}
 
 % Section 3
 \section{Collating inputs for HDXer analyses}\label{collating_inputs}
