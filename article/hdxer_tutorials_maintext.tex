@@ -328,7 +328,11 @@ We detail the remaining, more practical, prerequisites for the tutorials and HDX
 Although we have already described the basic inputs and outputs of HDXer analyses above, to understand the objectives of each tutorial it is helpful to also be familiar with the general structure of the HDXer software and of a typical workflow.
 The relationship between input data, analyses, and output data in HDXer is illustrated in Figure \ref{fig:workflowfig}, along with the names of key modules or scripts that will be used in the tutorials.
 
-
+\begin{figure}[t]
+    \includegraphics[width=0.98\linewidth]{Fig2_HDXer_workflow_vertical.pdf}
+    \caption{Workflow of a typical HDXer analysis. Input structural and experimentally-measured HDX-MS (orange; the dashed line denotes an optional input) can be processed through multiple analysis steps (blue), to obtain predicted HDX-MS data and/or a reweighted structural ensemble as outputs (green). The corresponding software packages or python functions are listed alongside each method. The tutorials cover all aspects of HDXer usage, from preparing input data to interpreting the outputs.}
+    \label{fig:workflowfig}
+\end{figure}
 
 \subsection{Organization of the tutorials}
 The initial stage for any HDXer analysis is the collation and preparation of input data sources, such as the candidate structural ensemble and target (experimental) HDX-MS data, as specified in section \ref{maxent_theory_sect}. 
@@ -339,12 +343,6 @@ Tutorial 2 (section \ref{tutorial_2}) demonstrates an application of the protect
 
 The final possible HDXer analysis is to reweight the candidate ensemble to fit target (experimental) HDX-MS data.
 Tutorial 3 (section \ref{tutorial_3}) describes an example application based on the HDX-MS predictions completed in tutorial 2, and illustrates how to interpret the outputs of reweighting, namely the final structural ensemble, the reweighted HDX-MS data, and the metrics of $W_\textnormal{app}$ and RMSE to the target data. 
-
-\begin{figure}
-    \includegraphics[width=0.98\linewidth]{Fig2_HDXer_workflow_vertical.pdf}
-    \caption{Workflow of a typical HDXer analysis. Input structural and experimentally-measured HDX-MS (orange; the dashed line denotes an optional input) can be processed through multiple analysis steps (blue), to obtain predicted HDX-MS data and/or a reweighted structural ensemble as outputs (green). The corresponding software packages or python functions are listed alongside each method. The tutorials cover all aspects of HDXer usage, from preparing input data to interpreting the outputs.}
-    \label{fig:workflowfig}
-\end{figure}
 
 % Section 3
 \section{Collating inputs for HDXer analyses}\label{collating_inputs}
@@ -679,11 +677,12 @@ Interested users can find more discussion of the concepts and practicalities of 
 However, such visualizations do not readily allow comparison of data from multiple time-points and multiple conditions simultaneously \cite{Masson2019}, and neglect the structural context of the HDX-MS predictions, and thereby the impact of reweighting on the structural ensemble itself.
 Therefore, in notebook \texttt{05\_heatmap.ipynb}, we explore some alternative (albeit not exhaustive) ways to visualize the effects of reweighting.
 
-\begin{figure}
-    \includegraphics[width=0.98\linewidth]{Fig5_BPTI_lineplot_1min_v2.pdf}
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Fig5_BPTI_lineplot_1min_v3.pdf}
     \caption{Target fractional deuteration values for selected residues in BPTI after 1 minute labeling (orange) overlaid with predicted values obtained before reweighting (dark blue) and after reweighting (light blue). Although H-D exchange is predicted accurately for many residues, some discrepancies between prediction and experiment remain, even following reweighting.}
     \label{fig:lineplot}
-\end{figure}
+\end{figure*}
 
 First, users create a heat map to represent the changes in deuterated fractions after reweighting for each residue and each timepoint simultaneously (Figure \ref{fig:heatmap}A).
 In this case, the columns correspond to residues in BPTI for which HDX-MS data was predicted, while the rows represent the time points at which exchange was predicted.
@@ -698,11 +697,12 @@ In particular, reweighting does not seem to affect the predicted deuteration for
 The residual error between the predicted and experimental data in these regions may arise from a variety of sources, and we will discuss possible approaches to delineate the cause of these discrepancies below, in section \ref{robustness_sect}.
 Nevertheless, for other regions of BPTI, the final predicted HDX-MS values are in good agreement with the target data, illustrated by closely matching deuteration levels in Fig. \ref{fig:lineplot}, which suggests that the reweighting approach has led to a reasonable description of the structure and dynamics of these regions in the final reweighted ensemble.
 
-\begin{figure}
-    \includegraphics[width=0.98\linewidth]{Fig6_heatmap+structures.png}
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Fig6_heatmap+structures_2col.png}
     \caption{Effect of reweighting on the predicted deuteration levels in the BPTI structural ensemble. (A) Difference in predicted HDX-MS for each residue at different labeling times shown as a heat map. Red represents an increase in deuteration and blue represents a decrease in deuteration after reweighting. (B) For each labeling timepoint, the difference in HDX is mapped onto an example BPTI crystal structure (protein databank entry 5PTI).}
     \label{fig:heatmap}
-\end{figure}
+\end{figure*}
 
 \subsubsection{Conclusion}
 
