@@ -716,8 +716,14 @@ As such, in the final section below, we explain how users can evaluate the relia
 A crucial final step for HDXer analyses, to which we have alluded in many sections above, is to ensure that the outputs from reweighting analyses are robust, and that conclusions can be drawn from the reweighted structural ensemble with confidence.
 Users will naturally wish to understand how choices made during the HDXer analyses can affect their results, to quantify the uncertainty in their final structural ensemble, and ultimately to validate the accuracy of their conclusions.
 
-An optimal approach to probe the accuracy of HDXer results would be to cross-validate the reweighted structural ensemble against other structural or functional data, for example from complementary solution-state structural biology techniques, and to assess the consistency of the interpretations thereof.
-However, in the absence of external cross-validation there are a number of internal checks that can be performed to validate the self-consistency, and to quantify the uncertainty, of HDXer results.
+An optimal approach to probe the accuracy of HDXer results would be to cross-validate the reweighted structural ensemble against other structural or functional data, and to assess the consistency of the interpretations thereof.
+For example, the final reweighted structural ensemble could be used to make predictions of complementary solution-state structural data such as SAXS, SANS, or NMR, or to predict specific structural features such as distance distributions observed in DEER, FRET, or crosslinking-MS experiments.
+In making these predictions, users should remember that HDXer applied with the phenomenological predictive model here \cite{BestVendruscolo2006} characterizes predominantly the amide C state structures and dynamics (section \ref{predictivemodel_sect}).
+The experimental solution state dynamics will inherently include fluctuations to amide O states, including large or slow transitions not well-captured by HDXer.
+For this reason, predictions of alternate experimental data from HDXer ensembles may not be equivalently accurate for all protein systems. 
+Nevertheless, for a given protein, cross-validation of the reweighted ensemble may be particularly useful to generate testable hypotheses of the structural effects of mutations or changes in environmental conditions, where we would expect that the relative structural differences between different protein states would be consistently identified by many experimental techniques.
+
+In the absence of external cross-validation there are a number of internal checks that can be performed to validate the self-consistency, and to quantify the uncertainty, of HDXer results.
 We discuss some suggested, albeit not exhaustive, checks below.
 These checks are designed to probe uncertainties in the final results arising from three potential sources of error: (a) the choice of target HDX-MS data, (b) the choice of the predictive model, and (c) the choice of the candidate ensemble of structures for reweighting.
 
