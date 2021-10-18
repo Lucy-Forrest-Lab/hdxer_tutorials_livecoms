@@ -286,17 +286,24 @@ At its core, the HDXer process applies an energy bias to the underlying potentia
 \end{equation}
 The values of the scaling parameters $\lambda_i$ for each residue, along with the number of contacts and H bonds $N_{\textnormal{C},i}$ and $N_{\textnormal{H},i}$ formed by that residue, determine the bias applied to each frame of the ensemble, and ultimately the new, corrected, contribution of each frame to the overall population.
 The objective of HDXer is to uniquely determine values of $\lambda_i$ such that the calculated deuterated fractions of the reweighted ensemble fit the target (experimental) fractions provided by the user, taking into account a defined error distribution, and using the smallest possible applied bias.
-To do so, HDXer iteratively minimizes a likelihood function that balances the bias applied, quantified across the whole ensemble as an apparent work, $W_\textnormal{app}$, with an error distribution, $\ln{\rho_\textnormal{err}}$:
+To do so, HDXer iteratively minimizes a distance function that balances the bias applied, quantified across the whole ensemble as an apparent work, $W_\textnormal{app}$, with an error distribution, $\ln{\rho_\textnormal{err}}$:
+
 \begin{equation}\label{KL_eqn}
-    L = \frac{W_\textnormal{app}}{k_\textnormal{B}T} - \ln{\rho_\textnormal{err}},
+\begin{gathered}
+L = \frac{W_\textnormal{app}}{k_\textnormal{B}T} - \ln{\rho_\textnormal{err}} \\
+\textbf{Where}: \\
+\rho_\textnormal{err} \propto \exp{ \left\{ - \sum_t \sum_j \gamma \frac{(D_{j,t}^\textnormal{sim} - D_{j,t}^\textnormal{exp})^2}{2\eta^2} \right\} } 
+\end{gathered}
 \end{equation}
-where $T$ is the temperature and $k_\textnormal{B}$ is the Boltzmann constant.
-The error distribution is applied to the difference between the calculated and target deuteration levels, meaning that in order to minimize the likelihood function in equation \ref{KL_eqn}, the reweighting process must decrease the difference between calculated and target HDX.
+
+where $T$ is the temperature, $k_\textnormal{B}$ is the Boltzmann constant, $D_{j,t}^\textnormal{sim}$ and $D_{j,t}^\textnormal{exp}$ are the simulated and experimental deuteration for peptide $j$ at time $t$, and $\eta$ is an estimate of the uncertainty (here set to 1, such that $\gamma$ instead describes the uncertainty for all target data points).
+
+The error distribution is applied to the difference between the calculated and target deuteration levels, meaning that in order to minimize the distance function in equation \ref{KL_eqn}, the reweighting process must decrease the difference between calculated and target HDX.
 However, precisely because HDXer incorporates an error distribution, the calculated and target data are not required to match perfectly.
 Instead, the error distribution controls how tightly the calculated and target data should conform, taking into account all forms of uncertainty in the analysis.
-The final difference between calculated and target deuteration levels is balanced with the bias applied to the candidate ensemble, $W_\textnormal{app}$, which must be simultaneously minimized in order to minimize the likelihood function in equation \ref{KL_eqn}. 
+The final difference between calculated and target deuteration levels is balanced with the bias applied to the candidate ensemble, $W_\textnormal{app}$, which must be simultaneously minimized in order to minimize the distance function in equation \ref{KL_eqn}. 
 For simplicity, we assume the error distribution for each target oligopeptide and HDX-MS timepoint is an individual Gaussian distribution of identical width, and these distributions are uncorrelated across all data points.
-The width of each distribution, and hence the uncertainty in the data, can be controlled with a single user-defined parameter, $\gamma$.
+The width of each distribution, and hence the uncertainty in the data, can be controlled with the single user-defined parameter $\gamma$ in equation \ref{KL_eqn}.
 
 Although brief, we expect that the above description will help users to understand the rationale for the key inputs and outputs of HDXer analyses, summarized below.
 
