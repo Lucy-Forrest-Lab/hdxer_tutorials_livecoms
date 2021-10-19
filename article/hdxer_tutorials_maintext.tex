@@ -291,7 +291,7 @@ To do so, HDXer iteratively minimizes a distance function that balances the bias
 \begin{equation}\label{KL_eqn}
 \begin{gathered}
 L = \frac{W_\textnormal{app}}{k_\textnormal{B}T} - \ln{\rho_\textnormal{err}} \\
-\textbf{Where}: \\
+\textbf{where}: \\
 \rho_\textnormal{err} \propto \exp{ \left\{ - \sum_t \sum_j \gamma \frac{(D_{j,t}^\textnormal{sim} - D_{j,t}^\textnormal{exp})^2}{2\eta^2} \right\} } 
 \end{gathered}
 \end{equation}
@@ -370,11 +370,20 @@ Fortunately, for HDX-MS experiments, recent consensus within the community has r
 
 A final consideration during target data curation relates to the choice of the most relevant data. 
 In theory, the inclusion of all available target data should restrain the potential solutions of the reweighting analysis and improve the spatial resolution and accuracy of the structural interpretations that HDXer can provide.
-However, any datapoints that do not exhibit significant differences in mass during the experiment can effectively decrease the signal-to-noise over the entire ensemble, given the realities of real-life, noisy, experimental data.
+However, the information content of all experimental datapoints is unlikely to be equal.
+Peptides that either remaining fully undeuterated throughout the experimental timecourse, or that reach maximal deuteration immediately at the earliest measurement time, can only provide a lower- or upper-bound to the (average) $P_i$ of the amides within the segment.
+A reweighting analysis that targeted undeuterated peptides would therefore be unable to distinguish between alternate highly-protected conformational states.
+Likewise, many highly-flexible, deprotected conformational states would be indistinguishable in reweighting analyses targeting fully-deuterated peptides.
+Overall, datapoints that do not exhibit significant differences in mass during the experimental timecourse could effectively decrease the signal-to-noise over the entire ensemble, and result in ambiguous structural interpretations.
 Therefore, in practice, we recommend that only datapoints for which significant deuteration are reported be included in the target dataset (see e.g. \cite{Hageman2019, Weis2021} for useful methods to determine significance in HDX-MS data).
-This advice applies also to data being used to compare ensembles obtained for different states, i.e., when reweighting ensembles from experiments carried out under different protein conditions, e.g. apo and holo states. 
-Specifically, we recommend including only datapoints that show significant mass differences between the two conditions (i.e. significant $\Delta$deuteration).
-With this approach, only the datapoints that contribute most to the differences between states drive the outcome of the reweighting.
+
+For data used to compare ensembles obtained for different states, i.e., when reweighting ensembles from experiments carried out under different protein conditions, e.g. apo and holo states, we recommend including only datapoints that show significant mass differences between the two conditions (i.e. significant $\Delta$deuteration).
+Again, in practice, if peptides do not exhibit significant $\Delta$HDX between states, it is impossible for a reweighting process to distinguish whether the two states have identical dynamics, whether they have different dynamics with coincidentally identical $P_i$, or whether they have different dynamics and $P_i$ that have been obscured by the magnitude of the experimental uncertainty.
+By neglecting peptides with non-significant $\Delta$HDX, only the datapoints that contribute most to the differences between states drive the outcome of the reweighting.
+
+Nevertheless, filtering of the target experimental data may be undesirable if it means key structural regions of interest are removed from the target dataset.
+The best approach to data curation may often be to design experimental measurements that are able to characterize the full range of protein dynamics, and that are as sensitive as possible to small differences between states.
+Careful optimization of experimental timepoints, temperature, pH, peptide coverage, and redundancy is therefore always recommended as part of the data curation process for HDXer analyses, and for HDX-MS experiments in general \cite{Masson2019}.
 
 \subsection{Curating a structural ensemble}
 As mentioned in section \ref{initialensemble_sect}, there are numerous methodologies that can be used to prepare a suitable candidate protein structural ensemble for reweighting.
