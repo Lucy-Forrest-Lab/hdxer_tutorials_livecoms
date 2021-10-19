@@ -383,7 +383,7 @@ By neglecting peptides with non-significant $\Delta$HDX, only the datapoints tha
 
 Nevertheless, filtering of the target experimental data may be undesirable if it means key structural regions of interest are removed from the target dataset.
 The best approach to data curation may often be to design experimental measurements that are able to characterize the full range of protein dynamics, and that are as sensitive as possible to small differences between states.
-Careful optimization of experimental timepoints, temperature, pH, peptide coverage, and redundancy is therefore always recommended as part of the data curation process for HDXer analyses, and for HDX-MS experiments in general \cite{Masson2019}.
+Careful optimization of experimental timepoints, temperature, pD, peptide coverage, and redundancy is therefore always recommended as part of the data curation process for HDXer analyses, and for HDX-MS experiments in general \cite{Masson2019}.
 Further suggestions in this regard are provided in section \ref{expt_design_sect}.
 
 \subsection{Curating a structural ensemble}
@@ -543,7 +543,7 @@ Specifically, the experimental data text file should space-delimited, with colum
 The penultimate step of this notebook provides example Python commands to create such a peptide-level datafile, called \texttt{BPTI\_expt\_dfracs.dat}.
 
 Note that, by default, the first residue in every peptide segment is ignored by HDXer and does not contribute to the average HDX deuterated fraction of each peptide at each experimental timepoint.
-This is because HDXer assumes that any deuterium labeling of the first residue in each HDX-MS peptide segment is completely back-exchanged to hydrogen after the quenching of labeling and digestion of the intact protein, as the hydrolyzed amide becomes a new, extremely labile, N-terminal amine.
+This is because HDXer assumes that any deuterium labeling of the first residue in each HDX-MS peptide segment is completely back-exchanged to hydrogen after the quenching of labeling and digestion of the intact protein, as the hydrolyzed amide becomes a new, extremely labile, N-terminal amine \cite{Bai1993, Walters2012}.
 Accordingly, for residue numbers in the first two columns of the experimental datafile of $a$ and $b$ respectively, corresponding to the first and final residue of a given peptide segment, the calculation will consider only the residues from $a+1$ to $b$.
 Thus, in the case of BPTI, the fractional deuteration for HDX-MS peptide segments of length 2 (residue $i-1$ to residue $i$) actually represents the fractional deuteration of individual residue $i$.
 This detail should be kept in mind when users prepare their own datasets for use with HDXer.
