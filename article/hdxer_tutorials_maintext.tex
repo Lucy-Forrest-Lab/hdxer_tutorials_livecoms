@@ -384,6 +384,7 @@ By neglecting peptides with non-significant $\Delta$HDX, only the datapoints tha
 Nevertheless, filtering of the target experimental data may be undesirable if it means key structural regions of interest are removed from the target dataset.
 The best approach to data curation may often be to design experimental measurements that are able to characterize the full range of protein dynamics, and that are as sensitive as possible to small differences between states.
 Careful optimization of experimental timepoints, temperature, pH, peptide coverage, and redundancy is therefore always recommended as part of the data curation process for HDXer analyses, and for HDX-MS experiments in general \cite{Masson2019}.
+Further suggestions in this regard are provided in section \ref{expt_design_sect}.
 
 \subsection{Curating a structural ensemble}
 As mentioned in section \ref{initialensemble_sect}, there are numerous methodologies that can be used to prepare a suitable candidate protein structural ensemble for reweighting.
@@ -769,9 +770,9 @@ The structural effects of reweighting should then be analyzed separately for eac
 
 \subsection{Uncertainty resulting from candidate ensemble}\label{ensemble_uncertainty_sect}
 The final source of error in HDXer analyses is perhaps the most straightforward for users to identify and characterize.
-As we have referenced throughout the tutorials, an ideal candidate ensemble for reweighting should cover all 'experimentally-relevant' protein conformational states but contain very few conformations not present in the experiment.
-Extraneous, non-experimental, protein conformations pose a challenge because they must be downweighted in order to amplify the 'signal' of structural motifs that conform well to the experimental HDX-MS data.
-This 'structural noise' can arise either from insufficient sampling in the generation of the candidate ensemble, or from systematic sampling of conformations that are not present in the experimental ensemble (for example, if apo conformations are included in an ensemble being reweighted to fit HDX-MS data of a holo protein-ligand complex).
+As we have referenced throughout the tutorials, an ideal candidate ensemble for reweighting should cover all 'experimentally-relevant' protein conformational states but contain very few 'irrelevant' conformations.
+Extraneous protein conformations pose a challenge because they must be downweighted in order to amplify the 'signal' of structural motifs that conform well to the experimental HDX-MS data.
+This 'structural noise' can arise either from insufficient sampling in the generation of the candidate ensemble, or from systematic sampling of conformations that are not relevant to fitting of the target data (for example, if apo conformations are included in an ensemble being reweighted to fit HDX-MS data of a holo protein-ligand complex).
 The presence and the quantitative effects of any uncertainty in the candidate structures can be interrogated using a combination of two approaches.
 
 Random uncertainty in the HDXer predictions can be characterized by repeating identical HDXer analyses with smaller random subsamples (\textit{ca.} 10-33\% of the full population) of the candidate ensemble.
@@ -779,13 +780,15 @@ By applying this bootstrapping-style approach to the structures in the candidate
 In the event that users have already generated the candidate ensemble from independent MD simulations, an alternative approach to characterize the variance in sampling would be to simply average the reweighting results from HDXer analyses applied to each simulation separately.
 However, from our experience we recommend applying the bootstrapping approach to an ensemble combining all independent simulations together, rather than analyzing each simulation separately, since even subtle differences in the structures sampled by each simulation can lead to systematically different HDXer results.
 
-To test for systematic errors in the candidate structures, users should begin by performing a thorough structural analysis in order to classify and quantify each conformational state present in their initial ensemble.
-Then, following a similar approach to that used above to identify systematic errors in the target data, users can perform repeated HDXer analyses using subsections of the candidate ensemble, systematically excluding each classified conformational state from the initial ensemble. 
-The contribution of the remaining conformational states can then be quantified with respect to the final $W_{\textnormal{app}}$ value, the RMSE to the target data, and to the resultant reweighted populations, whether up- or down-weighted.
-If excluding a particular conformation from the candidate ensemble results in reweighting with either (a) improved (smaller) RMSE to target with an equivalent applied $W_{\textnormal{app}}$, or (b) improved (smaller) $W_{\textnormal{app}}$ required to achieve an equivalent RMSE to the target data, then the excluded conformation is unlikely to be present in the experimental ensemble and can be safely excluded from the interpretation of the target HDX-MS data.
-However, if large RMSE to the target data remains, regardless of the selected conformational ensemble and applied $W_{app}$, this might suggest that neither any structural state sampled by the MD simulation, nor any population mixture of sampled states, represents the experimental ensemble well.
+To test for systematic errors in the candidate structures, users should begin by performing a thorough structural analysis, for example using dimensionality reduction or clustering techniques, in order to classify and quantify each conformational state present in their initial ensemble.
+Then, following a similar leave-one-out approach to that used above to identify systematic errors in the target data, users can perform repeated HDXer analyses using subsections of the candidate ensemble, systematically excluding each classified conformational state from the initial ensemble. 
+Reweighting with the remaining conformational states can then be quantified with respect to the final $W_{\textnormal{app}}$ value, the RMSE to the target data, and to the resultant reweighted populations, whether up- or down-weighted.
+Each trial candidate ensemble may leverage either improved (i.e. smaller $W_{\textnormal{app}}$, smaller RMSE) or worsened (i.e. larger $W_{\textnormal{app}}$, larger RMSE) fit to the target data.
+Large changes in reweighting results during the leave-one-out analysis would indicate that the excluded conformational state is highly-leveraging upon the final reweighted ensemble.
+Such states are potential outliers or sources of systematic uncertainty in the reweighting results, and should be further manually visualized and assessed to determine the reason for the leveraging effects of including/excluding the state.
+Finally, if large RMSE to the target data remains, regardless of the selected conformational ensemble and applied $W_{app}$, this might suggest that neither any structural state sampled by the MD simulation, nor any population mixture of sampled states, represents the experimental ensemble well.
 
-\subsection{Considerations in experimental design}
+\subsection{Considerations in experimental design}\label{expt_design_sect}
 The previous sections provide a number of practical approaches to assess and rectify any ambiguities in the computational reweighting applied by HDXer.
 However, any ambiguities that arise from the experimental data itself will be challenging and time-consuming to understand using the \textit{post hoc} HDXer analyses described above.
 For example, if the HDX-MS experiments are known to probe a highly diverse conformational ensemble, with many states of varied populations, lengthy testing may be required to validate that the HDXer reweighted ensembles cover the complete experimental ensemble.
