@@ -3,7 +3,7 @@
 %%% ADAPTED FROM ELIFE ARTICLE TEMPLATE (8/10/2017)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% PREAMBLE
-\documentclass[9pt,tutorial]{livecoms}
+\documentclass[9pt,tutorial,ASAPversion]{livecoms}
 % Use the 'onehalfspacing' option for 1.5 line spacing
 % Use the 'doublespacing' option for 2.0 line spacing
 % Use the 'lineno' option for adding line numbers.
@@ -20,11 +20,12 @@
 \usepackage[italic]{mathastext}
 \graphicspath{{figures/}}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% IMPORTANT USER CONFIGURATION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\versionnumber}{0.2}  % you should update the minor version number in preprints and major version number of submissions.
+\newcommand{\versionnumber}{1.0}  % you should update the minor version number in preprints and major version number of submissions.
 \newcommand{\githubrepository}{\url{https://github.com/Lucy-Forrest-Lab/hdxer_tutorials_livecoms}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,8 +73,8 @@
 \pubissue{<issue>}
 \pubyear{<year>}
 \articlenum{<number>}
-\datereceived{Day Month Year}
-\dateaccepted{Day Month Year}
+\datereceived{6 July 2021}
+\dateaccepted{20 January 2022}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% ARTICLE START
@@ -94,7 +95,6 @@ We then guide users through a suite of tutorials that demonstrate the practical 
 Finally we provide a practical discussion of the capabilities and limitations of the HDXer methods including recommendations for a user's own analyses.
 Overall, this article is intended to provide an up-to-date, pedagogical counterpart to the software, which is freely available at \url{https://github.com/Lucy-Forrest-Lab/HDXer}.
 \end{abstract}
-
 \end{frontmatter}
 
 
@@ -502,13 +502,13 @@ The notebooks can be found in the \texttt{\$HDXER\_PATH/tutorials/notebooks/} fo
 \subsection{Tutorial 1: Preparing experimental HDX data for use with HDXer}\label{tutorial_1}
 
 \subsubsection{Introduction}
-The first tutorial notebook focuses on ensuring that the data to be used in HDXer is formatted correctly. 
+The \href{https://github.com/Lucy-Forrest-Lab/HDXer/blob/master/tutorials/notebooks/01_data_prep.ipynb}{first tutorial notebook} focuses on ensuring that the data to be used in HDXer is formatted correctly. 
 We anticipate that most HDXer users will obtain their data from HDX-MS measurements, so HDXer expects target experimental data to be provided in an HDX-MS style, i.e., fractional deuteration values (also known as relative fractional uptake RFU), for peptide segments at specific experimental deuterium labeling times. 
 However, there are a number of other, interconvertible, metrics that can be used to describe the deuterium uptake of a protein over time. 
 For example, NMR data may be quoted in terms of residue-level $P_i$, or $\Delta{G_{exch}}$. 
 Therefore, it is important to know how data types can be interconverted. 
 In the first step of the tutorial, we will illustrate how to convert residue-level protection factors from NMR experiments into a HDX-MS style dataset suitable for use with HDXer. 
-Example scripts can be found in the first Jupyter notebook: \texttt{01\_data\_prep.ipynb}.
+Example scripts can be found in the first Jupyter notebook: \href{https://github.com/Lucy-Forrest-Lab/HDXer/blob/master/tutorials/notebooks/01_data_prep.ipynb}{\texttt{01\_data\_prep.ipynb}}.
 
 \subsubsection{Prerequisites}
 For this tutorial, users should be familiar with the general concepts and terminology of mass spectrometry (MS) measurements. 
@@ -565,7 +565,7 @@ The next stage involves generating HDX data from a candidate structural ensemble
 \subsubsection{Introduction}
 The goal of HDXer is to facilitate the structural interpretation of experimental HDX data in molecular detail. 
 To do so, we generate an ensemble of structures, calculate the corresponding HDX levels according to a predictive model, and manipulate the ensemble to highlight the configurations of that ensemble that are most representative of the data. 
-The second Jupyter notebook, \texttt{02\_calc\_hdx.ipynb} provides an example ensemble of structures for BPTI, explains the predictive model used to estimate protection factors and corresponding HDX-MS data for each snapshot, and guides users through such an HDX-MS calculation for BPTI.
+The \href{https://github.com/Lucy-Forrest-Lab/HDXer/blob/master/tutorials/notebooks/02_calc_hdx.ipynb}{second Jupyter notebook}, \href{https://github.com/Lucy-Forrest-Lab/HDXer/blob/master/tutorials/notebooks/02_calc_hdx.ipynb}{\texttt{02\_calc\_hdx.ipynb}} provides an example ensemble of structures for BPTI, explains the predictive model used to estimate protection factors and corresponding HDX-MS data for each snapshot, and guides users through such an HDX-MS calculation for BPTI.
 The computed HDX values will then be compared with the experimental BPTI data that were prepared during Tutorial 1.
 
 \subsubsection{Prerequisites} 
@@ -634,7 +634,7 @@ As mentioned above, the process of reweighting applies a minimal bias to the can
 The level of uncertainty, and correspondingly the magnitude of bias applied, is controlled by the parameter $\gamma$, which must be chosen by the user and supplied to HDXer for each reweighting analysis.
 In practice, to avoid overfitting, reweighting should be carried out in multiple iterations in which $\gamma$ values are varied. 
 The accuracy of the reweighted data (e.g. the RMSE between the computed and target HDX) and the bias applied (in terms of $W_\textnormal{app}$) should then be evaluated for each iteration.
-Tutorial 3 comprises three Juypter notebooks that show the user how to design and carry out an example reweighting experiment (\texttt{03\_reweighting.ipynb}), how to determine a 'suitable' $\gamma$ value in a \textit{post hoc} fashion (\texttt{04\_decision\_plot.ipynb}), and how to analyze the results (\texttt{05\_heatmap.ipynb}). 
+Tutorial 3 comprises three Juypter notebooks that show the user how to design and carry out an example reweighting experiment (\href{https://github.com/Lucy-Forrest-Lab/HDXer/blob/master/tutorials/notebooks/03_reweighting.ipynb}{\texttt{03\_reweighting.ipynb}}), how to determine a 'suitable' $\gamma$ value in a \textit{post hoc} fashion (\href{https://github.com/Lucy-Forrest-Lab/HDXer/blob/master/tutorials/notebooks/04_decision_plot.ipynb}{\texttt{04\_decision\_plot.ipynb}}), and how to analyze the results (\href{https://github.com/Lucy-Forrest-Lab/HDXer/blob/master/tutorials/notebooks/05_heatmap.ipynb}{\texttt{05\_heatmap.ipynb}}). 
 
 \subsubsection{Prerequisites}
 

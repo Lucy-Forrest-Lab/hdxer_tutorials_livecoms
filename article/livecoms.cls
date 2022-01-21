@@ -450,7 +450,7 @@
 }
 
 \renewcommand{\maketitle}{%
-  \vskip36pt%
+  \vskip24pt%
   {\color{LiveCoMSDarkBlue}\raggedright\bfseries\fontsize{22}{27}\selectfont \@title\par}%
   \vskip16pt
   {\@author\par}
