@@ -1,5 +1,5 @@
 # Interpreting hydrogen-deuterium exchange experiments with molecular simulations: Tutorials and applications of the HDXer ensemble reweighting software
-This article presents a collection of tutorials, and accompanying guidance, for the [HDXer ensemble reweighting software package](https://github.com/Lucy-Forrest-Lab/HDXer). The tutorial files themselves are available within [the main HDXer software package]((https://github.com/Lucy-Forrest-Lab/HDXer/tree/master/tutorials).
+This article presents a collection of tutorials, and accompanying guidance, for the [HDXer ensemble reweighting software package](https://github.com/Lucy-Forrest-Lab/HDXer). The tutorial files themselves are available within [the main HDXer software package](https://github.com/Lucy-Forrest-Lab/HDXer/tree/master/tutorials).
 
 
 The HDXer software has two main functions:
