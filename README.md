@@ -1,5 +1,6 @@
 # Interpreting hydrogen-deuterium exchange experiments with molecular simulations: Tutorials and applications of the HDXer ensemble reweighting software
-This article presents a collection of tutorials, and accompanying guidance, for the [HDXer ensemble reweighting software package](https://github.com/Lucy-Forrest-Lab/HDXer).
+This article presents a collection of tutorials, and accompanying guidance, for the [HDXer ensemble reweighting software package](https://github.com/Lucy-Forrest-Lab/HDXer). The tutorial files themselves are available within [the main HDXer software package]((https://github.com/Lucy-Forrest-Lab/HDXer/tree/master/tutorials).
+
 
 The HDXer software has two main functions:
 1. To predict H-D exchange rates from a candidate ensemble of protein structures, for example from molecular simulations
@@ -32,3 +33,4 @@ This paper is being developed as a living document, open to changes from the com
 ## Changelog
 <!-- Here, record summaries of important changes. A granular discussion of changes will be kept in GitHub by issue tracking.-->
 - 29 June 2021: Initial commit of document prior to submission
+- 03 Dec 2021: Resubmission of v0.2 after changes post-review
