@@ -31,7 +31,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% ARTICLE SETUP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Interpreting hydrogen-deuterium exchange experiments with molecular simulations: Tutorials and applications of the HDXer ensemble reweighting software [Article v\versionnumber]}
+\title{Interpreting Hydrogen-Deuterium Exchange Experiments with Molecular Simulations: Tutorials and Applications of the HDXer Ensemble Reweighting Software [Article v\versionnumber]}
 
 \author[1]{Paul Suhwan Lee}
 \author[1*\authfn{1}]{Richard T. Bradshaw}
@@ -68,10 +68,10 @@
 %%% Fill out these parameters when available
 %%% These are used when the "pubversion" option is invoked
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pubDOI{10.XXXX/YYYYYYY}
-\pubvolume{<volume>}
-\pubissue{<issue>}
-\pubyear{<year>}
+\pubDOI{10.33011/livecoms.3.1.1521}
+\pubvolume{3}
+\pubissue{1}
+\pubyear{2022}
 \articlenum{<number>}
 \datereceived{6 July 2021}
 \dateaccepted{20 January 2022}
@@ -102,7 +102,7 @@ Overall, this article is intended to provide an up-to-date, pedagogical counterp
 A pioneering descriptive framework developed in the 1950s by Linderstrøm-Lang and co-workers first linked the hydrogen exchange rates of backbone amide functional groups directly to protein structure  \cite{Hvidt1954, Englander1997}. 
 This concept provided the foundation for the subsequent development of hydrogen-deuterium exchange (HDX) measurements as a sensitive, label-free probe of protein conformation and dynamics in solution and due to these advances HDX is now a valuable addition to the modern structural biology toolbox. 
 In recent years, successful applications of HDX measurements have proliferated, in part due to advancements in technologies used to perform, analyze, and process HDX experiments. 
-In particular, experiments that couple HDX to mass spectrometry measurements of the deuterium uptake (HDX-MS) are now widely used for analyzing the dynamics of proteins in solution
+In particular, experiments that couple HDX to mass spectrometry measurements of the deuterium uptake (HDX-MS) are now widely used for analyzing the dynamics of proteins in solution.
 HDX-MS offers particular advantages over methods such as NMR-based exchange measurements for large proteins, complexes, and for small sample amounts \cite{Oganesyan2018, Engen2020, James2021}.
 
 Within the protein environment, the canonical mechanisms for backbone amide deuterium exchange require the amide hydrogen to be exposed and accessible, at least transiently, to either a nearby catalytic solvent molecule, OD$^-$, or D$_3$O$^+$ ion \cite{Hvidt1966, Englander1983}. 
@@ -203,7 +203,8 @@ On the other hand, it is important to note that the relative weights of each fra
 Therefore, the presence of 'irrelevant' structures (i.e. conformations not present in the experiment) should be kept to a minimum.
 
 Atomic-resolution MD simulations initiated with a high-resolution, experimentally-determined structure constitute a well-established approach to explore the conformational space of biomolecules in solution \cite{Huggins2019}. 
-Such simulations by definition sample a Boltzmann distribution of states, making them a straightforward and rigorous tool for generating a candidate ensemble of structures for HDXer analyses and as such have been used in the HDXer tutorials described here.
+Such simulations by definition sample a Boltzmann distribution of states, making them a straightforward and rigorous tool for generating a candidate ensemble of structures for HDXer analyses.
+As such MD simulations have been used in the HDXer tutorials described here.
 Nevertheless, the exhaustiveness of conformational sampling obtained using MD simulations is limited by the overall protein size, the available computational resources, and the conformational diversity of the experimentally-determined structures used to initiate simulations.
 In some cases, therefore, classical (unbiased) simulations may not sufficiently sample the relevant conformational space or may become kinetically trapped in regions of conformational space that are not representative of the dynamics observed experimentally.
 
@@ -321,7 +322,7 @@ As outputs, users can expect to receive:
 \begin{itemize}
     \item the optimized relative populations of each frame in the reweighted ensemble;
     \item the level of agreement between the computed and the target HDX data, calculated as the RMS error between the two datasets;
-    \item the apparent work, $W_{app}$ that was applied to the reweighted ensemble, as a measure of the total bias applied and the degree to which the distribution of frames in the candidate ensemble was shifted by the reweighting process.
+    \item the apparent work, $W_{\textnormal{app}}$ that was applied to the reweighted ensemble, as a measure of the total bias applied and the degree to which the distribution of frames in the candidate ensemble was shifted by the reweighting process.
 \end{itemize}
 Armed with the knowledge provided thus far, the tutorials are intended to provide a practical guide for users to set up, perform, and interpret their own HDXer analyses.
 We detail the workflow of a typical HDXer analysis in the following section, and the remaining practical requirements for the tutorials and HDXer analyses in Section \ref{collating_inputs}.
@@ -378,7 +379,7 @@ Peptides that either remain fully undeuterated throughout the experimental timec
 A reweighting analysis that targets undeuterated peptides would therefore be unable to distinguish between alternate highly-protected conformational states.
 Likewise, many highly-flexible, deprotected conformational states would be indistinguishable in reweighting analyses targeting fully-deuterated peptides.
 Overall then, datapoints that do not exhibit significant differences in mass during the experimental timecourse could effectively decrease the signal-to-noise over the entire ensemble and result in ambiguous structural interpretations.
-Therefore, in practice, minimizing the number of datapoints without significant significant changes in deuteration over the experimental time course is likely to improve the structural fidelity of reweighting analyses. 
+Therefore, in practice, minimizing the number of datapoints without significant changes in deuteration over the experimental time course is likely to improve the structural fidelity of reweighting analyses. 
 See also e.g. \cite{Hageman2019, Weis2021} for useful methods to determine significance in HDX-MS data.
 
 For data used to compare ensembles obtained for different states, i.e., when reweighting ensembles from experiments carried out under different protein conditions, e.g. apo and holo states, similar considerations apply. Specifically, datapoints that show significant mass differences between the two conditions (i.e., significant $\Delta$deuteration) are most informative for reweighting.
@@ -580,7 +581,7 @@ These data are available in the \texttt{\$HDXER\_PATH/tutorials/BPTI/BPTI\_calc\
 
 \noindent
 \textit{Computing HDX data for MD simulation snapshots} -- In this tutorial we introduce the \texttt{calc\_hdx.py} Python script (see Figure \ref{fig:workflowfig}), a wrapper script that allows users to compute HDX-MS data for each frame in an ensemble of structures. 
-This script is run using a Unix command line interface and allows the input filenames, method type, analysis options, and output filenames to be specified using \textit{via} command-line flags.
+This script is run using a Unix command line interface and allows the input filenames, method type, analysis options, and output filenames to be specified \textit{via} command-line flags.
 
 In the first step of the tutorial we set up and describe the \texttt{calc\_hdx.py} command to calculate HDX-MS data from the BPTI MD trajectories.
 We encourage users to review the help text provided by \texttt{calc\_hdx.py} (accessible by running \texttt{calc\_hdx.py -h} on the command line), which explains how to use the command line flags.
@@ -757,7 +758,7 @@ A standard approach used to test the robustness of model-fitting analyses is to 
 For HDXer analyses this process is facilitated by the large number of individual (albeit correlated) timepoints and peptide segments that comprise each HDX-MS dataset.
 To assess the level of uncertainty across the experimental data, we recommend that users reapply HDXer analyses with systematic variations to the target HDX-MS dataset and quantitatively assess the differences in the resulting reweighted structural ensemble. 
 For example, a systematic 'leave-one-out' approach with target data timepoints can identify whether individual timepoints lead to specific structural interpretations, or \textit{vice versa} result in uncertain predictions.
-A similar approach with datapoints of individual target peptides can narrow down the cause of uncertainty to individual regions of the protein and invite caution in structural interpretations, or highlight the necessity for additional experimental coverage, in those regions.
+A similar approach with datapoints of individual target peptides can narrow down the cause of uncertainty to individual regions of the protein and invite caution in structural interpretations, or highlight the necessity for additional experimental coverage in those regions.
 In summary, \textit{post-hoc} uncertainty assessments of the HDXer target data will be aided if users perform HDX-MS experiments across as many timepoints as practicable and with as much peptide redundancy as attainable.
 We suggest that users take this into account during the experimental design, where possible.
 
