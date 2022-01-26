@@ -29,8 +29,10 @@ This paper is being developed as a living document, open to changes from the com
 <!-- update this when you decide to release a version either by preprint or when submitted to LiveCoMS-->
 - v0.1: Submitted to LiveCoMS
 - v0.2: Resubmission post-review
+- v1.0: First published version (currently ASAP version)
 
 ## Changelog
 <!-- Here, record summaries of important changes. A granular discussion of changes will be kept in GitHub by issue tracking.-->
 - 29 June 2021: Initial commit of document prior to submission
 - 03 Dec 2021: Resubmission of v0.2 after changes post-review
+- 26 Jan 2022: Upload & publication of ASAP version 1.0
