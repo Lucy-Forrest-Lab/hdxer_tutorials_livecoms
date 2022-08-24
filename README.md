@@ -36,3 +36,4 @@ This paper is being developed as a living document, open to changes from the com
 - 29 June 2021: Initial commit of document prior to submission
 - 03 Dec 2021: Resubmission of v0.2 after changes post-review
 - 26 Jan 2022: Upload & publication of ASAP version 1.0
+- 24 Aug 2022: Upload & publication of final version 1.0
